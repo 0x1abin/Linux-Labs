@@ -48,11 +48,12 @@ char *out;
 
 char jsonBuf[200];
 
-int create_json(char *jbuf, int val_1)
+int create_json(char *jbuf, int val_1, int val_2)
 {
 	cJSON *root,*fmt,*img,*thm,*fld,*kld;
 	cJSON *datastreams_arr;
 	cJSON *dtms_oj1, *dtms_oj1_arr, *dtms_oj1_arr_val;
+	cJSON *dtms_oj2, *dtms_oj2_arr, *dtms_oj2_arr_val;
 //	cJSON *dtms_oj2, *dtms_oj3;
 	int lenth;
 	char *jout;
@@ -61,11 +62,18 @@ int create_json(char *jbuf, int val_1)
 	root=cJSON_CreateObject();
 	cJSON_AddItemToObject(root, "datastreams", datastreams_arr=cJSON_CreateArray());
 	cJSON_AddItemToArray(datastreams_arr, dtms_oj1=cJSON_CreateObject());
+	cJSON_AddItemToArray(datastreams_arr, dtms_oj2=cJSON_CreateObject());
+	
 	cJSON_AddStringToObject(dtms_oj1,"id","温度");
-
 	cJSON_AddItemToObject(dtms_oj1,"datapoints",dtms_oj1_arr = cJSON_CreateArray());
 	cJSON_AddItemToArray(dtms_oj1_arr, dtms_oj1_arr_val=cJSON_CreateObject());
 	cJSON_AddNumberToObject(dtms_oj1_arr_val,"value",val_1);
+	
+	cJSON_AddStringToObject(dtms_oj2,"id","湿度");
+	cJSON_AddItemToObject(dtms_oj2,"datapoints",dtms_oj2_arr = cJSON_CreateArray());
+	cJSON_AddItemToArray(dtms_oj2_arr, dtms_oj2_arr_val=cJSON_CreateObject());
+	cJSON_AddNumberToObject(dtms_oj2_arr_val,"value",val_2);
+	
 
 	jout = cJSON_PrintUnformatted(root);
 //	out=cJSON_Print(root);
@@ -215,7 +223,10 @@ uint8 readSensorData(int *tmp, int *rh)
 		*tmp = (databuf>>8)&0xff;
 		*rh  = (databuf>>24)&0xff;
 		
-		return 1;
+		if(tmp > 40)
+			return 0;
+		else
+			return 1;
 	}
 	else
 	{
@@ -223,7 +234,7 @@ uint8 readSensorData(int *tmp, int *rh)
 	}
 }
 
-void Init_DHT11()
+int Init_DHT11()
 {
 	printf("Use GPIO1 to read data!\n");
 
@@ -254,7 +265,7 @@ int main()
 		
 		if(res == 1)
 		{
-		    lenths = create_json(jsonBuf, temperature);
+		    lenths = create_json(jsonBuf, temperature, humidity);
 		    
 		    http_post(jsonBuf, lenths);
 		}

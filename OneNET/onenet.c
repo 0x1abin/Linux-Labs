@@ -173,7 +173,7 @@ uint8 readSensorData(int *tmp, int *rh)
 
 	pinMode(pinNumber,OUTPUT); // set mode to output
 	digitalWrite(pinNumber, 1); // output a high level
-	delay(2000);
+	delay(3000);
 
 	pinMode(pinNumber,OUTPUT); // set mode to output
 	digitalWrite(pinNumber, 0); // output a high level
@@ -241,22 +241,25 @@ void Init_DHT11()
 int main()
 {
 	size_t lenths;
-	int temperature, humidity;
+	int temperature, humidity, res;
 
     //srandom(66);
     Init_DHT11();
 	
 	while(1)
 	{
-		readSensorData(&temperature, &humidity);
+		res = readSensorData(&temperature, &humidity);
 		
 		printf("temperature:%d. humidity:%d \r\n", temperature, humidity);
 		
-	    lenths = create_json(jsonBuf, temperature);
-	    
-	    http_post(jsonBuf, lenths);
-	    
-	    sleep(5);
+		if(res == 1)
+		{
+		    lenths = create_json(jsonBuf, temperature);
+		    
+		    http_post(jsonBuf, lenths);
+		}
+		    
+	    sleep(1);
 	}
 	
 }

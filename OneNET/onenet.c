@@ -103,7 +103,7 @@ int http_post(char *postData, int n)
 	for (i = 0; (answer->h_addr_list)[i] != NULL; i++)
 	{
 		inet_ntop(AF_INET, (answer->h_addr_list)[i], ipstr, 16);
-		printf("解析域名：%s\n...", answer->h_name);
+		printf("解析域名：%s....\n", answer->h_name);
 		printf("地址解析成功: %s\n", ipstr);
 	}
 	
@@ -249,6 +249,8 @@ int main()
 	while(1)
 	{
 		readSensorData(&temperature, &humidity);
+		
+		printf("temperature:%d. humidity:%d \r\n", temperature, humidity);
 		
 	    lenths = create_json(jsonBuf, temperature);
 	    

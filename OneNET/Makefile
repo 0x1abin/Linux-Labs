@@ -46,8 +46,8 @@ $(OBJ): cJSON.c cJSON.h
 .c.o:
 		$(CC) -ansi -pedantic -c $(R_CFLAGS) $<
 
-$(TESTS): cJSON.c cJSON.h test.c
-		$(CC)  cJSON.c test.c -o test -lm -I.
+$(TESTS): cJSON.c cJSON.h onenet.c
+		$(CC)  cJSON.c onenet.c -o onenet -lwiringPi -lwiringPiDev -lpthread -lm -I. 
 
 install: $(DYLIBNAME) $(STLIBNAME)
 		mkdir -p $(INSTALL_LIBRARY_PATH) $(INSTALL_INCLUDE_PATH)

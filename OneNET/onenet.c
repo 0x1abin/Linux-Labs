@@ -45,7 +45,7 @@ typedef unsigned int uint16;
 typedef unsigned long uint32;
 
 char *out;
-
+uint32 count = 0;
 char jsonBuf[200];
 
 int create_json(char *jbuf, int val_1, int val_2)
@@ -268,6 +268,8 @@ int main()
 		    lenths = create_json(jsonBuf, temperature, humidity);
 		    
 		    http_post(jsonBuf, lenths);
+		    
+		    printf("count:%d.\r\n",count++);
 		}
 		    
 	    sleep(1);

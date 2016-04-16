@@ -61,7 +61,7 @@ int create_json(char *jbuf, int val_1)
 	root=cJSON_CreateObject();
 	cJSON_AddItemToObject(root, "datastreams", datastreams_arr=cJSON_CreateArray());
 	cJSON_AddItemToArray(datastreams_arr, dtms_oj1=cJSON_CreateObject());
-	cJSON_AddStringToObject(dtms_oj1,"id","testID1");
+	cJSON_AddStringToObject(dtms_oj1,"id","温度");
 
 	cJSON_AddItemToObject(dtms_oj1,"datapoints",dtms_oj1_arr = cJSON_CreateArray());
 	cJSON_AddItemToArray(dtms_oj1_arr, dtms_oj1_arr_val=cJSON_CreateObject());

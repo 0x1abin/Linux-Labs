@@ -40,6 +40,10 @@
 #include <arpa/inet.h>
 #include <netdb.h>
 
+typedef unsigned char uint8;
+typedef unsigned int uint16;
+typedef unsigned long uint32;
+
 char *out;
 
 char jsonBuf[200];

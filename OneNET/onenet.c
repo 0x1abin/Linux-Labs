@@ -92,10 +92,10 @@ int http_post(char *postData, int n)
 {
 	#define URLADDR "api.heclouds.com"
 	#define PORT 80
-	#define BUFSIZE 1024
+	#define BUFSIZE 4096
 	
 	int sockfd, ret, i, h;
-	char str1[512], recvbuf[BUFSIZE], ipstr[16];
+	char str1[4096], recvbuf[BUFSIZE], ipstr[16];
     struct sockaddr_in servaddr;
 	struct hostent *answer;
 	
@@ -160,10 +160,10 @@ int http_post(char *postData, int n)
     }
 
 	// 第五步 接收HTTP响应
-//	memset(recvbuf, 0, BUFSIZE);
-//    i = read(sockfd, recvbuf, BUFSIZE);
-//    recvbuf[i] = '\0';
-//    printf("================Receive Message:================\r\n%s\r\n",recvbuf);
+	memset(recvbuf, 0, BUFSIZE);
+    i = read(sockfd, recvbuf, BUFSIZE);
+    recvbuf[i] = '\0';
+    printf("================Receive Message:================\r\n%s\r\n",recvbuf);
 
     close(sockfd);// 关闭套接字
 }

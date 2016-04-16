@@ -223,7 +223,7 @@ uint8 readSensorData(int *tmp, int *rh)
 		*tmp = (databuf>>8)&0xff;
 		*rh  = (databuf>>24)&0xff;
 		
-		if(tmp > 40)
+		if(*tmp > 40)
 			return 0;
 		else
 			return 1;

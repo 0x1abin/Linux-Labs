@@ -159,11 +159,11 @@ int http_post(char *postData, int n)
 		printf("消息发送成功，共发送了%d个字节！\n\n", ret);
     }
 
-	// 第五步 接收HTTP响应
-	memset(recvbuf, 0, BUFSIZE);
-    i = read(sockfd, recvbuf, BUFSIZE);
-    recvbuf[i] = '\0';
-    printf("================Receive Message:================\r\n%s\r\n",recvbuf);
+//	// 第五步 接收HTTP响应
+//	memset(recvbuf, 0, BUFSIZE);
+//    i = read(sockfd, recvbuf, BUFSIZE);
+//    recvbuf[i] = '\0';
+//    printf("================Receive Message:================\r\n%s\r\n",recvbuf);
 
     close(sockfd);// 关闭套接字
 }
@@ -272,7 +272,7 @@ int main()
 		    printf("count:%d.\r\n",count++);
 		}
 		    
-	    sleep(1);
+	    sleep(2);
 	}
 	
 }

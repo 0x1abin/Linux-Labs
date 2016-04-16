@@ -160,10 +160,10 @@ int http_post(char *postData, int n)
     }
 
 	// 第五步 接收HTTP响应
-	memset(recvbuf, 0, BUFSIZE);
-    i = read(sockfd, recvbuf, BUFSIZE);
-    recvbuf[i] = '\0';
-    printf("================Receive Message:================\r\n%s\r\n",recvbuf);
+//	memset(recvbuf, 0, BUFSIZE);
+//    i = read(sockfd, recvbuf, BUFSIZE);
+//    recvbuf[i] = '\0';
+//    printf("================Receive Message:================\r\n%s\r\n",recvbuf);
 
     close(sockfd);// 关闭套接字
 }

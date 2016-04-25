@@ -1,1 +1,0 @@
-set(DPKG_EXECUTABLE "/usr/bin/dpkg")

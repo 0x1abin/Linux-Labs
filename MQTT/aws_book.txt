@@ -1,9 +1,13 @@
-ssh -i "aws.pem" ubuntu@ec2-54-179-146-103.ap-southeast-1.compute.amazonaws.com
+ssh -i "aws.pem" ubuntu@ec2-52-53-198-237.us-west-1.compute.amazonaws.com
+
+//--------------------------------------------------------------------
+ShadowsocksR一键安装脚本
+https://shadowsocks.be/9.html
 
 Congratulations, ShadowsocksR install completed!
-Server IP:  54.179.146.103 
-Server Port:  8989 
-Password:  qwer 
+Server IP:  52.53.198.237 
+Server Port:  9889 
+Password:  qwerqwer 
 Local IP:  127.0.0.1 
 Local Port:  1080 
 Protocol:  origin 
@@ -29,3 +33,13 @@ https://github.com/breakwa11/shadowsocks-rss/wiki/Server-Setup
 停止：/etc/init.d/shadowsocks stop
 重启：/etc/init.d/shadowsocks restart
 状态：/etc/init.d/shadowsocks status
+
+//------------------------------------------------------------------------------------
+qCloud servers:
+119.29.241.156
+
+mosquitto -v
+mosquitto_sub -h 119.29.241.156 -p 1883 -v -t sensor
+mosquitto_pub -h 119.29.241.156 -p 1883 -t sensor -m 12
+
+//-------------------------------------------------------------

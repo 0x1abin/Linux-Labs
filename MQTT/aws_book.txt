@@ -5,7 +5,7 @@ ShadowsocksR一键安装脚本
 https://shadowsocks.be/9.html
 
 Congratulations, ShadowsocksR install completed!
-Server IP:  52.53.198.237 
+Server IP:  52.53.198.237
 Server Port:  9889 
 Password:  qwerqwer 
 Local IP:  127.0.0.1 

@@ -36,10 +36,21 @@ https://github.com/breakwa11/shadowsocks-rss/wiki/Server-Setup
 
 //------------------------------------------------------------------------------------
 qCloud servers:
-119.29.241.156
+123.207.124.126
 
 mosquitto -v
 mosquitto_sub -h 119.29.241.156 -p 1883 -v -t sensor
 mosquitto_pub -h 119.29.241.156 -p 1883 -t sensor -m 12
 
 //-------------------------------------------------------------
+
+----fantem----
+"configs" : [
+  {
+"server" : "45.78.52.41",
+"server_port" : 443,
+"password" : "uKAwAAEqyj",
+"method" : "aes-256-cfb",
+"remarks" : "VPS 1"}
+
+],

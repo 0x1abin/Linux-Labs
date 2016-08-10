@@ -37,23 +37,15 @@ typedef struct uv_fs_poll_s     uv_fs_poll_t;
 typedef struct uv_signal_s      uv_signal_t;
 
 
-typedef void (*uv_targer_cb)(void);
-typedef void (*uv_watch_cb)(uv_watch_t* handle);
 typedef void (*uv_timer_cb)(uv_timer_t* handle);
 
-//extern uv_loop_t loop;
+extern uv_loop_t loop;
 
 struct uv_loop_s {
     uint8_t     flags;        
     
-    uv_timer_t* timer;
+    uv_timer_t *timer;
     uint8_t     timer_counter;
-    
-    uv_watch_t* watch;
-    uint8_t     watch_counter;
-    
-//    uv_idle_t*  idle;
-    
     uint32_t    time_base;
 };
 
@@ -61,57 +53,35 @@ struct uv_loop_s {
 struct uv_timer_s {
     /* public */                                                                
     void*    data;
-    /* read-only */
-    uv_loop_t* loop; 
     uint8_t  flags;
     
     //UV_TIMER_PRIVATE_FIELDS
     uv_timer_cb timer_cb;
+    
     uint32_t timeout;
     uint32_t repeat;
+    uint8_t start_id;
     
     struct list_head list;
+    
+    uv_timer_t *prev;
+    uv_timer_t *next;
 };
 
 
-struct uv_watch_s {
-    /* public */                                                                
-    void*    data;
-    /* read-only */
-    uv_loop_t* loop; 
-    uint8_t  flags;
-    
-    uv_watch_t watch_cb;
-    uv_targer_cb target;
-    int event;
-    int prev_event;
-    uint32_t timeout;
-    
-    struct list_head list;
-}
+int uv_loop_init(void);
+int uv_run(void);
 
+void uv__update_time(void);
 
-uv_loop_t* uv_default_loop(void);
-int uv_loop_init(uv_loop_t* loop);
-int uv_run(uv_loop_t* loop);
-
-void uv__update_time(uv_loop_t* loop);
-
-
-void uv_timer_init(uv_loop_t* loop, uv_timer_t* handle);
+void uv_timer_init(uv_timer_t* handle);
 int uv_timer_start(uv_timer_t* handle, uv_timer_cb cb, uint32_t timeout, uint32_t repeat);
 int uv_timer_stop(uv_timer_t* handle);
 int uv_timer_again(uv_timer_t* handle);
 void uv_timer_set_repeat(uv_timer_t* handle, uint32_t repeat);
 uint32_t uv_timer_get_repeat(const uv_timer_t* handle);
-void uv__run_timers(uv_loop_t* loop);
+void uv__run_timers(void);
 void uv__timer_close(uv_timer_t* handle);
 
 
-void uv_watch_init(uv_loop_t* loop, uv_watch_t* handle);
-int uv_watch_start(uv_watch_t* handle, uv_watch_cb cb, uv_targer_cb target, uint32_t timeout);
-int uv_watch_stop(uv_watch_t* handle);
-void uv__run_watch(uv_loop_t* loop);
-
 #endif /* UV_H */
-

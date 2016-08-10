@@ -3,7 +3,6 @@
 #include <sys/wait.h>
 #include <sys/time.h>
 
-uv_loop_t* xloop;
 
 uv_timer_t timer1;
 uv_timer_t timer2;
@@ -42,23 +41,22 @@ void time4_func(uv_timer_t* handle)
 
 int main(int argc, char **argv)
 {
-    printf("libuev..\r\n");
+    printf("libuve..\r\n");
     
-    xloop = uv_default_loop();
-//    uv_loop_init(&xloop);
+    uv_loop_init();
     
-	uv_timer_init(xloop, &timer1);
-	uv_timer_start(&timer1, time1_func, 132, 645);
+	uv_timer_init(&timer1);
+	uv_timer_start(&timer1, time1_func, 1000, 500);
 	
-	uv_timer_init(xloop, &timer2);
-	uv_timer_start(&timer2, time2_func, 0, 751);
+	uv_timer_init(&timer2);
+	uv_timer_start(&timer2, time2_func, 0, 1000);
 	
- 	uv_timer_init(xloop, &timer3);
+ 	uv_timer_init(&timer3);
  	uv_timer_start(&timer3, time3_func, 0, 5000);
 	
- 	uv_timer_init(xloop, &timer4);
+ 	uv_timer_init(&timer4);
  	uv_timer_start(&timer4, time4_func, 5000, 0);
 
-    uv_run(xloop);
+    uv_run();
 
 }

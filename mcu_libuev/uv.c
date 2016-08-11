@@ -48,6 +48,7 @@ int uv_run(uv_loop_t* loop) {
   while (1) {
     uv__update_time(loop);
     uv__run_timers(loop);
+    uv__run_watch(loop);
 //    uv__run_idle(loop);
 //    uv__run_prepare(loop);
   }

@@ -21,26 +21,7 @@
 #include "uv.h"
 
 
-struct uv_watch_s {
-    /* public */                                                                
-    void*    data;
-    /* read-only */
-    uv_loop_t* loop; 
-    uint8_t  flags;
-    
-    uv_watch_t watch_cb;
-    
-    int* target(void);
-    int event;
-    int prev_event;
-    
-    uint32_t timeout;
-    
-    struct list_head list;
-}
-
-
-void uv_watch_init(uv_loop_t* loop, uv_watch_t* handle);
+void uv_watch_init(uv_loop_t* loop, uv_watch_t* handle)
 {
 //    memset(handle, 0, sizeof(uv_watch_t));
     handle->loop = loop;
@@ -59,9 +40,9 @@ int uv_watch_start(uv_watch_t* handle, uv_watch_cb cb, uv_targer_cb target, uint
 	else
 		handle->timeout = handle->loop->time_base + timeout;
 		
-	handle->event = target();
-	handle->prev_event = event;
-	handle->total_count += 1;
+	handle->event = (int)(target());
+	handle->prev_event = handle->event;
+	handle->loop->watch_counter += 1;
 	
 	if(handle->loop->watch == NULL)
 	{
@@ -79,47 +60,46 @@ int uv_watch_start(uv_watch_t* handle, uv_watch_cb cb, uv_targer_cb target, uint
 int uv_watch_stop(uv_watch_t* handle)
 {
 //	if(&(handle->list) == handle->list.next)
-	if(--(handle->watch_counter) == 0)
+	if(--(handle->loop->watch_counter) == 0)
 	{
 		handle->loop->watch = NULL;
 		return 0;
 	}
 
 	list_del(&(handle->list));
+	
+	return 1;
 }
 
 void uv__run_watch(uv_loop_t* loop)
 {
+    uint8_t i;
     uv_watch_t* watch;
     struct list_head* plist;
     
-    if(loop->watch == NULL)
-    {
-    	return -EINVAL;
-    }
-    else
+    if(loop->watch != NULL)
     {
     	watch = loop->watch;
-    	plist = watch->list;
-    }
+    	plist = &(watch->list);
     
-    for(i=0; i<(loop->watch.total_count); i++)
-    {
-        watch = container_of(plist, uv_watch_t, list);
-        
-        loop->watch.event = loop->watch.target();
-        
-        if((loop->watch.event) != (loop->watch.prev_event))
+        for(i=0; i<(loop->watch_counter); i++)
         {
-            loop->watch.cb(loop->watch);
-        }
-        
-        loop->watch.prev_event = loop->watch.event;
-        plist = plist->next;
-        
-        if(loop->time_base > watch->timeout)
-        {
-        	uv_watch_stop(watch);
+            watch = container_of(plist, uv_watch_t, list);
+            
+            loop->watch->event = loop->watch->target();
+            
+            if((loop->watch->event) != (loop->watch->prev_event))
+            {
+                loop->watch->cb(loop->watch);
+            }
+            
+            loop->watch->prev_event = loop->watch->event;
+            plist = plist->next;
+            
+            if(loop->time_base > watch->timeout)
+            {
+            	uv_watch_stop(watch);
+            }
         }
     }
 }

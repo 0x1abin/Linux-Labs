@@ -43,23 +43,13 @@ int uv_timer_start(uv_timer_t* handle,
 
 	if(handle->loop->timer == NULL)
 	{
-		handle->loop->timer = handle;
-		
 		INIT_LIST_HEAD(&(handle->list));
-//		handle->next = handle;
-//		handle->prev = handle;
+		handle->loop->timer = handle;
 	}
 	else
 	{
 		list_add(&(handle->list), &(handle->loop->timer->list));
-//		handle->next = loop->timer->next;
-//		handle->prev = loop->timer;
-//		loop->timer->next->prev = handle;
-//		loop->timer->next = handle;
 	}
-	
-//	printf("timer:%p\t timer->next:%p\t nx:%p\t nx2:%p\t nx3:%p\t \r\n", 
-//	loop->timer, loop->timer->next, loop->timer->next->next, loop->timer->next->next->next, loop->timer->next->next->next->next);
 
 	return 0;
 }
@@ -74,9 +64,6 @@ int uv_timer_stop(uv_timer_t* handle)
 	}
 
 	list_del(&(handle->list));
-	
-//	handle->prev->next = handle->next;
-//	handle->next->prev = handle->prev;
 	
 	return 0;
 }
@@ -133,8 +120,3 @@ void uv__run_timers(uv_loop_t* loop)
 	}
 }
 
-
-void uv__timer_close(uv_timer_t* handle)
-{
-	uv_timer_stop(handle);
-}

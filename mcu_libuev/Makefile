@@ -1,7 +1,7 @@
 # 可执行文件
-TARGET=test
+TARGET=libuev_test
 # 依赖目标
-SRCS=main.c timer.c uv.c
+SRCS=main.c timer.c uv.c watch.c
 
 # 目标文件
 OBJS = $(SRCS:.c=.o)
